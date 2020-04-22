@@ -1,7 +1,8 @@
 const express = require('express');
 const User = require('../models/user');
-
 const router = express.Router();
+
+
 
 router.post('/register', async(req,res)=>{
     try{
@@ -15,4 +16,4 @@ router.post('/register', async(req,res)=>{
 });
 
 
-module.exports = app => app.use('/auth', router);
+module.exports = router;

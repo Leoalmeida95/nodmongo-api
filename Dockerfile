@@ -12,4 +12,4 @@ COPY /src/index.js .
 
 EXPOSE 3000
 
-CMD nodemon -L --watch . index.js
+CMD nodemon -L --watch . src/index.js
