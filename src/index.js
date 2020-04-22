@@ -9,8 +9,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
 app.get('/', (req,res)=>{
-    res.send('OK');
+  res.send('OK');
 })
 
+require('./controllers/authController')(app);
 
 app.listen(PORT, () => console.log('Server ativo na porta 3000'));

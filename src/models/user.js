@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../connect');
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
