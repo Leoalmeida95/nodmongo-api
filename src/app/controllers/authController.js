@@ -3,6 +3,8 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../../config/auth');
+const crypto = require('crypto');
+const mailer = require('../../modules/mailer');
 
 const router = express.Router();
 
@@ -51,6 +53,43 @@ router.post('/authenticate', async(req,res)=>{
         return res.status(500).send({error:'Authentication failure.'});
     }
 });
+
+router.post('/forgot-password', async(req,res)=>{
+    try{
+        const {email} = req.body;
+
+        const user = await User.findOne({email});
+
+        if(!user)
+            return res.status(400).send({error:'Uset not found.'});
+        
+        const token = crypto.randomBytes(20).toString('hex');
+        const now = new Date();
+        now.setHours(now.getHours() + 1);
+
+        await User.findByIdAndUpdate(user.id, {
+            '$set':{
+                passwordResetToken: token,
+                passwordResetExpires: now
+            }
+        });
+
+        mailer.sendMail({
+            to: email,
+            from: 'wofsystem@gmail.com',
+            template: 'auth/forgot-password',
+            context: {token}
+        }, (err)=>{
+            if(err)
+                return res.status(500).send({error:'Canot send forgot password email.'});
+        });
+
+        return res.status(200).send();
+    }
+    catch (err){
+        return res.status(500).send({error:'Error on forgot password. Try again.' + err});
+    }
+})
 
 
 module.exports = router;
