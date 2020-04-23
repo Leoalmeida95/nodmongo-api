@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
 app.get('/', (req,res)=>{
-  res.send('v8');
+  res.send('User Auth');
 })
 
 const auth = require('./controllers/authController');
