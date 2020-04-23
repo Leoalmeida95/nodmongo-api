@@ -8,9 +8,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
-const auth = require('./app/controllers/authController');
-const project = require('./app/controllers/projectController');
-app.use('/api/user', auth);
-app.use('/api', project);
+//rotas
+app.use('/api/user', require('./app/controllers/authController'));
+app.use('/api', require('./app/controllers/projectController'));
 
 app.listen(PORT);
