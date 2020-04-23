@@ -8,11 +8,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.get('/', (req,res)=>{
-  res.send('Token');
-})
-
 const auth = require('./controllers/authController');
+const project = require('./controllers/projectController');
 app.use('/api/user', auth);
+app.use('/api', project);
 
 app.listen(PORT);
