@@ -67,24 +67,23 @@ router.post('/forgot-password', async(req,res)=>{
         const now = new Date();
         now.setHours(now.getHours() + 1);
 
-        await User.findByIdAndUpdate(user.id, {
-            '$set':{
-                passwordResetToken: token,
-                passwordResetExpires: now
-            }
-        });
+        await User.findByIdAndUpdate(user.id, 
+                                    {
+                                        '$set':{
+                                            passwordResetToken: token,
+                                            passwordResetExpires: now
+                                        }
+                                    }, 
+                                    {useFindAndModify: false});
 
         mailer.sendMail({
             to: email,
             from: 'wofsystem@gmail.com',
-            template: 'auth/forgot-password',
-            context: {token}
-        }, (err)=>{
-            if(err)
-                return res.status(500).send({error:'Canot send forgot password email.'});
+            template: '/forgot-password',
+            context: {token: token, userName: user.name}
         });
 
-        return res.status(200).send();
+        return res.status(200).send({message: 'Email send!'});
     }
     catch (err){
         return res.status(500).send({error:'Error on forgot password. Try again.' + err});

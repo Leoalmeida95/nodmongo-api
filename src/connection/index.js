@@ -11,6 +11,10 @@ mongoose.connect('mongodb://db:27017/crud-node-mongo-docker', {
     console.log(error);
   });
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+
 mongoose.Promise = global.Promise;
 
 module.exports = mongoose;
