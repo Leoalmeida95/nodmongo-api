@@ -1,6 +1,6 @@
 const mongoose = require('../../connection');
 const { Schema } = mongoose;
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
 const UserSchema = new Schema({
     name: {
@@ -30,12 +30,12 @@ const UserSchema = new Schema({
       type: Date,
       default: Date.now
     }
-  });
+});
 
-  //função do mongoose que ocorre antes de salvar
-  UserSchema.pre('save', async function(next){
-    const hash = await  bcrypt.hash(this.password,10);
-    this.password = hash;
-  })
-  
-  module.exports = mongoose.model('User', UserSchema);
+//função do mongoose que ocorre antes de salvar
+UserSchema.pre('save', async function(next){
+  const hash = await  bcrypt.hash(this.password,10);
+  this.password = hash;
+})
+
+module.exports = mongoose.model('User', UserSchema);
